@@ -3,13 +3,20 @@ import typing as t
 import kafka
 
 def produce(args):
-    producer = kafka.KafkaProducer(bootstrap_servers=args.kafka)
-    producer.send(args.topic, args.message.encode("utf-8"))
+    producer = kafka.KafkaProducer(
+        bootstrap_servers=args.kafka,
+        value_serializer=lambda x: x.encode('utf-8')
+    )
+    producer.send(args.topic, args.message)
 
 def consume(args):
-    consumer = kafka.KafkaConsumer(args.topic, bootstrap_servers=args.kafka)
+    consumer = kafka.KafkaConsumer(
+        args.topic,
+        bootstrap_servers=args.kafka,
+        value_deserializer=lambda x: x.decode('utf-8'),
+    )
     for msg in consumer:
-        print(msg.value.decode('utf-8'))
+        print(msg.value)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Kafka Producer and Consumer")

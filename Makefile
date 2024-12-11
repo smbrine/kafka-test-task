@@ -5,7 +5,7 @@ black:
 	poetry run black -l 75 .
 
 docker:
-	export CI_TAG=1.1.1; \
+	export CI_TAG=1.1.2; \
 	export REGISTRY=docker.io/smbrine; \
 	export REPO=kafka-test-task; \
 	export FULL_REPO=$$REGISTRY/$$REPO; \
